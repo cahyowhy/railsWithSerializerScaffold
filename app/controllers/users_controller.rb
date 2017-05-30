@@ -4,13 +4,12 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-
-    render json: {data: @users, status: httpstatus[:getSuccess]}
+    render json: {data: @users.as_json(:except => [:created_at, :updated_at]), status: httpstatus[:getSuccess]}
   end
 
   # GET /users/1
   def show
-    render json:{data:  @user, status: httpstatus[:getSuccess]}
+    render json:{data:  @user.as_json(:except => [:created_at, :updated_at]), status: httpstatus[:getSuccess]}
   end
 
   # POST /users
@@ -18,12 +17,11 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @name =  params[:name]
     
-    puts httpstatus[:getFailed]
     if check_user(@name)
         render json: {message: "user is exist, using another name", status: httpstatus[:postFailed]}, status: :unprocessable_entity
     else
       if @user.save
-        render json: {data:  @user, status: httpstatus[:postSuccess]}, status: :created, location: @user
+        render json: {data:  @user.as_json(:except => [:created_at, :updated_at]), status: httpstatus[:postSuccess]}, status: :created, location: @user
       else
         render json: {data:  @user.errors, status: httpstatus[:postFailed]}, status: :unprocessable_entity
     end
@@ -33,7 +31,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: {data: @user, status: httpstatus[:updateSuccess]}
+      render json: {data: @user.as_json(:except => [:created_at, :updated_at]), status: httpstatus[:updateSuccess]}
     else
       render json: {data: @user.errors, status: httpstatus[:updateFailed]}, status: :unprocessable_entity
     end
@@ -42,6 +40,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     @user.destroy
+    render json: {message: "delete success", status: httpstatus[:deleteSucess]}
   end
 
   private
@@ -56,6 +55,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :age)
+      params.require(:user).permit(:name, :age, :jk)
     end
 end
