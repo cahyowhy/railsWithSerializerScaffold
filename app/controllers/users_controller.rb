@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
-  before_action :authenticate_request, only [:update, :save, :destroy]
+  before_action :authenticate_request, only: [:update, :destroy]
 
   # GET /users
   def index
@@ -16,7 +16,9 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
-    @name =  params[:name]
+    @name =  params[:username]
+
+    puts @user.password
 
     if check_user(@name)
       render json: {message: "user is exist, using another name", status: httpstatus[:postFailed]}, status: :unprocessable_entity
@@ -45,18 +47,18 @@ class UsersController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_user
     @user = User.find(params[:id])
   end
 
   def check_user(param)
-    return User.exists?(:name => param)
+    return User.exists?(:username => param)
   end
 
   # Only allow a trusted parameter "white list" through.
   def user_params
-    params.require(:user).permit(:username, :weight, :jk, :birthdate, :profilepic, :password, :height)
+    params.require(:user).permit(:username, :weight, :jk, :birthdate, :profilepic, :password, :password_confirmation, :height)
   end
 
   # do authentication
@@ -64,3 +66,17 @@ class UsersController < ApplicationController
     authenticateUserModule()
   end
 end
+
+=begin
+  ngepost se ngene
+  {"user":{
+    "username": "cahyawhy",
+    "age": 21,
+    "jk":"Pria",
+    "weight":21,
+    "password":"Cahyowhy01",
+    "password_confirmation":"Cahyowhy01",
+    "height":171
+  } }
+
+=end

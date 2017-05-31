@@ -1,13 +1,18 @@
-class AuthenticationController < ApplicationController 
-	skip_before_action :authenticate_request
+class AuthenticationController < ApplicationController
+  attr_reader :authenticate_request
+  # skip_before_action :authenticate_request
 
-	def authenticate
-		command = AuthenticateUser.call(params[:username], params[:password])
+  def authenticate
+    command = AuthenticateUser.call(params[:username], params[:password])
 
-		if command.success? 
-			render json:{auth_token: command.result}
-		else
-			render json:{message: command.result}, status: :unauthorized
-		end
-	end
+    if command.success?
+      render json:{auth_token: command.result}
+    else
+      render json:{message: command.result}, status: :unauthorized
+    end
+  end
+
+  # def authenticate_request
+  #   authenticateUserModule()
+  # end
 end
