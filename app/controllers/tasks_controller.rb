@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :update, :destroy]
-  before_action :authenticate_request, only [:update, :save, :destroy]
+  before_action :authenticate_request, only: [:update, :save, :destroy]
 
   # GET /tasks
   def index

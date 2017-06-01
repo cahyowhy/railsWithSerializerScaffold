@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :imagecomments
+  resources :imagepaths
+  resources :imageposts
   resources :users
   resources :tasks
 
