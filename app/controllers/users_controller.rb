@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-    render json: {data: @users.as_json(:except => [:created_at, :updated_at]), status: httpstatus[:getSuccess]}
+    render json: @users
+    # render json: {data: @users.as_json(:except => [:created_at, :updated_at]), status: httpstatus[:getSuccess]}
   end
 
   # GET /users/1
