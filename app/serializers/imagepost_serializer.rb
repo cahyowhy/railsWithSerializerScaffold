@@ -4,7 +4,7 @@ class ImagepostSerializer < ActiveModel::Serializer
   has_one :user
   has_many :imagepaths
   has_many :imagecomments
-  has_many :imagelike
+  has_many :imagelikes
 
   def user
     {id: object.user.id, username: object.user.username, profilepic: object.user.profilepic}

@@ -1,5 +1,6 @@
 class ImagepostsController < ApplicationController
   before_action :set_imagepost, only: [:show, :update, :destroy]
+  before_action :authenticate_request, only: [:update, :save, :destroy]
 
   # GET /imageposts
   def index
@@ -39,13 +40,21 @@ class ImagepostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_imagepost
-      @imagepost = Imagepost.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_imagepost
+    @imagepost = Imagepost.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def imagepost_params
-      params.require(:imagepost).permit(:title, :description, :user_id)
-    end
+  # Only allow a trusted parameter "white list" through.
+  # both of two method is required for save imagepost
+  def imagepost_params
+    params.require(:imagepost).permit(:title, :description, :user_id)
+  end
+  def imagepath_params
+    params.require(:imagepath).permit(:path)
+  end
+
+  def authenticate_request
+    authenticateUserModule()
+  end
 end
