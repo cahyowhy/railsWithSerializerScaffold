@@ -10,43 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170602030629) do
-
-  create_table "image_comments", force: :cascade do |t|
-    t.integer  "user_id"
-    t.text     "comment"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "image_posts_id"
-    t.index ["image_posts_id"], name: "index_image_comments_on_image_posts_id"
-    t.index ["user_id"], name: "index_image_comments_on_user_id"
-  end
-
-  create_table "image_likes", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "image_posts_id"
-    t.index ["image_posts_id"], name: "index_image_likes_on_image_posts_id"
-    t.index ["user_id"], name: "index_image_likes_on_user_id"
-  end
-
-  create_table "image_paths", force: :cascade do |t|
-    t.string   "path"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "image_posts_id"
-    t.index ["image_posts_id"], name: "index_image_paths_on_image_posts_id"
-  end
-
-  create_table "image_posts", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["user_id"], name: "index_image_posts_on_user_id"
-  end
+ActiveRecord::Schema.define(version: 20170603071514) do
 
   create_table "imagecomments", force: :cascade do |t|
     t.integer  "user_id"
@@ -101,9 +65,11 @@ ActiveRecord::Schema.define(version: 20170602030629) do
     t.string   "username"
     t.string   "profilepic"
     t.date     "birthdate"
+    t.text     "password"
     t.float    "weight"
     t.float    "height"
     t.string   "password_digest"
+    t.integer  "age"
   end
 
 end

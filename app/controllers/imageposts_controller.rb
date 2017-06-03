@@ -19,6 +19,10 @@ class ImagepostsController < ApplicationController
     @imagepost = Imagepost.new(imagepost_params)
 
     if @imagepost.save
+      params[:imagepost][:imagepath_data].each do |file|
+        # puts @imagepost.id
+        @imagepost.imagepaths.create!(:path => file)
+      end
       render json: @imagepost, status: :created, location: @imagepost
     else
       render json: @imagepost.errors, status: :unprocessable_entity
@@ -48,10 +52,7 @@ class ImagepostsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   # both of two method is required for save imagepost
   def imagepost_params
-    params.require(:imagepost).permit(:title, :description, :user_id)
-  end
-  def imagepath_params
-    params.require(:imagepath).permit(:path)
+    params.require(:imagepost).permit(:title, :description, :user_id, :imagepath_data => [])
   end
 
   def authenticate_request
