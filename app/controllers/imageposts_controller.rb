@@ -1,6 +1,6 @@
 class ImagepostsController < ApplicationController
   before_action :set_imagepost, only: [:show, :update, :destroy]
-  before_action :authenticate_request, only: [:update, :save, :destroy]
+  before_action :authenticate_request, only: [:update, :destroy]
 
   # GET /imageposts
   def index

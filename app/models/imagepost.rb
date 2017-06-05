@@ -4,4 +4,7 @@ class Imagepost < ApplicationRecord
   has_many :imagepaths
   has_many :imagecomments
   has_many :imagelikes
+  before_destroy {|record| Imagecomment.where(imagepost_id: record.id).delete_all}
+  before_destroy {|record| Imagepath.where(imagepost_id: record.id).delete_all}
+  before_destroy {|record| Imagelike.where(imagepost_id: record.id).delete_all}
 end

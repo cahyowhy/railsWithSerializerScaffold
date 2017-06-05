@@ -1,0 +1,1 @@
+curl -F "imagepost[imagepath_data][]=@ad.JPG" -F "imagepost[imagepath_data][]=@huadfw.JPG" -F "imagepost[title]=asasassasa" -F "imagepost[description]=uhuhuhuhuhuhuh" -F "imagepost[user_id]=1" localhost:3000/imageposts
