@@ -1,6 +1,7 @@
 class ImagepostsController < ApplicationController
   before_action :set_imagepost, only: [:show, :update, :destroy]
   before_action :authenticate_request, only: [:update, :destroy]
+  before_action :set_imagepost_offset_limit, only: [:show_limit_offset]
 
   # GET /imageposts
   def index
@@ -11,6 +12,10 @@ class ImagepostsController < ApplicationController
 
   # GET /imageposts/1
   def show
+    render json: @imagepost
+  end
+
+  def show_limit_offset
     render json: @imagepost
   end
 
@@ -50,6 +55,10 @@ class ImagepostsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_imagepost
     @imagepost = Imagepost.find(params[:id])
+  end
+
+  def set_imagepost_offset_limit
+    @imagepost = Imagepost.all.limit(params[:limit]).offset(params[:offset])
   end
 
   def remove_img(param)
