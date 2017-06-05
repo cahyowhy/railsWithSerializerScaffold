@@ -40,6 +40,9 @@ class ImagepostsController < ApplicationController
 
   # DELETE /imageposts/1
   def destroy
+    @imagepost.imagepaths.each do |item|
+      remove_img(item.path.url)
+    end
     @imagepost.destroy
   end
 
@@ -47,6 +50,10 @@ class ImagepostsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_imagepost
     @imagepost = Imagepost.find(params[:id])
+  end
+
+  def remove_img(param)
+    File.delete("#{Rails.root}/public#{param}")
   end
 
   # Only allow a trusted parameter "white list" through.
