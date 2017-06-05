@@ -1,5 +1,6 @@
 class ImagecommentsController < ApplicationController
   before_action :set_imagecomment, only: [:show, :update, :destroy]
+  before_action :set_imagecomment_by_imagepost, only: [:show_by_imagepost]
 
   # GET /imagecomments
   def index
@@ -10,6 +11,10 @@ class ImagecommentsController < ApplicationController
 
   # GET /imagecomments/1
   def show
+    render json: @imagecomment
+  end
+
+  def show_by_imagepost
     render json: @imagecomment
   end
 
@@ -39,13 +44,17 @@ class ImagecommentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_imagecomment
-      @imagecomment = Imagecomment.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_imagecomment
+    @imagecomment = Imagecomment.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def imagecomment_params
-      params.require(:imagecomment).permit(:user_id, :imagepost_id, :comment)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def imagecomment_params
+    params.require(:imagecomment).permit(:user_id, :imagepost_id, :comment)
+  end
+
+  def set_imagecomment_by_imagepost
+    @imagecomment = Imagecomment.where(:imagepost_id => params[:id])
+  end
 end

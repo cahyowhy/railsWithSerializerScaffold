@@ -56,8 +56,6 @@ class ImagepostsController < ApplicationController
     File.delete("#{Rails.root}/public#{param}")
   end
 
-  # Only allow a trusted parameter "white list" through.
-  # both of two method is required for save imagepost
   def imagepost_params
     params.require(:imagepost).permit(:title, :description, :user_id, :imagepath_data => [])
   end

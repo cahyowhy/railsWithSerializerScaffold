@@ -1,5 +1,6 @@
 class ImagelikesController < ApplicationController
-  before_action :set_imagelike, only: [:show, :update, :destroy]
+  before_action :set_imagelike, only: [:show,:destroy]
+  before_action :set_imagelike_by_imagepost, only: [:show_by_imagepost]
 
   # GET /imagelikes
   def index
@@ -10,6 +11,10 @@ class ImagelikesController < ApplicationController
 
   # GET /imagelikes/1
   def show
+    render json: @imagelike
+  end
+
+  def show_by_imagepost
     render json: @imagelike
   end
 
@@ -24,15 +29,6 @@ class ImagelikesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /imagelikes/1
-  def update
-    if @imagelike.update(imagelike_params)
-      render json: @imagelike
-    else
-      render json: @imagelike.errors, status: :unprocessable_entity
-    end
-  end
-
   # DELETE /imagelikes/1
   def destroy
     @imagelike.destroy
@@ -42,6 +38,10 @@ class ImagelikesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_imagelike
       @imagelike = Imagelike.find(params[:id])
+    end
+
+    def set_imagelike_by_imagepost
+      @imagelike = Imagelike.where(:imagepost_id => params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

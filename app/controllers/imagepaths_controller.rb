@@ -1,11 +1,16 @@
 class ImagepathsController < ApplicationController
-  before_action :set_imagepath, only: [:show, :update, :destroy]
+  before_action :set_imagepath, only: [:show]
+  before_action :set_imagepath_by_imagepost, only: [:show_by_imagepost]
 
   # GET /imagepaths
   def index
     @imagepaths = Imagepath.all
 
     render json: @imagepaths
+  end
+
+  def show_by_imagepost
+    render json: @imagepath
   end
 
   # GET /imagepaths/1
@@ -24,24 +29,14 @@ class ImagepathsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /imagepaths/1
-  def update
-    if @imagepath.update(imagepath_params)
-      render json: @imagepath
-    else
-      render json: @imagepath.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /imagepaths/1
-  def destroy
-    @imagepath.destroy
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_imagepath
       @imagepath = Imagepath.find(params[:id])
+    end
+
+    def set_imagepath_by_imagepost
+      @imagepath = Imagepath.where(:imagepost_id => params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
