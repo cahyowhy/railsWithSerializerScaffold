@@ -2,12 +2,17 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
-
-  # Choose what kind of storage to use for this uploader:
+  include CarrierWave::MiniMagick
   storage :file
-  # storage :fog
 
+  # if using multi versions
+  # version :main do
+  #   process :store_dimensions
+  #   process :resize_to_fit => [120, 120]
+  # end
+
+  # doesnt stracth image
+  process :resize_to_fit => [560, 560]
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
@@ -46,4 +51,21 @@ class PictureUploader < CarrierWave::Uploader::Base
     Time.new.to_i.to_s+original_filename
   end
 
+  # store width height
+  # private
+  # def store_dimensions
+  #   image = MiniMagick::Image.open(self.file.file)
+  #   @image_width = image[:width]
+  #   @image_height = image[:height]
+  #   if (@image_height>@image_width)
+  #     ratio = @image_height>560 ? 560.0/@image_height : 1.0
+  #     @image_height = @image_height * ratio
+  #     @image_width = @image_width * ratio
+  #   else
+  #     ratio = @image_width>560 ? 560.0/@image_width : 1.0
+  #     @image_height = @image_height * ratio
+  #     @image_width = @image_width * ratio
+  #   end
+  #   puts "#{@image_width.to_i.to_s} #{@image_height.to_i.to_s}"
+  # end
 end
