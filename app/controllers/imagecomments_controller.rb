@@ -1,18 +1,7 @@
 class ImagecommentsController < ApplicationController
-  before_action :set_imagecomment, only: [:show, :update, :destroy]
+  before_action :set_imagecomment, only: [:update, :destroy]
   before_action :set_imagecomment_by_imagepost, only: [:show_by_imagepost]
-
-  # GET /imagecomments
-  def index
-    @imagecomments = Imagecomment.all
-
-    render json: @imagecomments
-  end
-
-  # GET /imagecomments/1
-  def show
-    render json: @imagecomment
-  end
+  before_action :authenticate_request, only: [:update, :destroy, :create]
 
   def show_by_imagepost
     render json: @imagecomment
@@ -56,5 +45,9 @@ class ImagecommentsController < ApplicationController
 
   def set_imagecomment_by_imagepost
     @imagecomment = Imagecomment.where(:imagepost_id => params[:id])
+  end
+
+  def authenticate_request
+    authenticateUserModule()
   end
 end

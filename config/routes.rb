@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :relationships, only: [:create, :destroy]
-  resources :imagelikes
-  resources :imagecomments
+  resources :imagelikes, only: [:create, :destroy, :show_by_imagepost]
+  resources :imagecomments, only: [:create, :destroy, :show_by_imagepost, :update]
   resources :imagepaths
   resources :imageposts
   resources :users do

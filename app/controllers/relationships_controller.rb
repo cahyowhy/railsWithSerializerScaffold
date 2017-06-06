@@ -3,7 +3,6 @@ class RelationshipsController < ApplicationController
 
   def create
     user = User.find(params[:followed_id])
-    puts "#{curent_user.id} ini ID"
     curent_user.follow(user)
   end
 
@@ -13,7 +12,6 @@ class RelationshipsController < ApplicationController
   end
 
   private
-  # do authentication
   def authenticate_request
     authenticateUserModule()
   end

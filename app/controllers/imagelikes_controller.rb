@@ -1,18 +1,7 @@
 class ImagelikesController < ApplicationController
-  before_action :set_imagelike, only: [:show,:destroy]
+  before_action :set_imagelike, only: [:destroy]
   before_action :set_imagelike_by_imagepost, only: [:show_by_imagepost]
-
-  # GET /imagelikes
-  def index
-    @imagelikes = Imagelike.all
-
-    render json: @imagelikes
-  end
-
-  # GET /imagelikes/1
-  def show
-    render json: @imagelike
-  end
+  before_action :authenticate_request, only: [:create, :destroy]
 
   def show_by_imagepost
     render json: @imagelike
@@ -35,17 +24,21 @@ class ImagelikesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_imagelike
-      @imagelike = Imagelike.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_imagelike
+    @imagelike = Imagelike.find(params[:id])
+  end
 
-    def set_imagelike_by_imagepost
-      @imagelike = Imagelike.where(:imagepost_id => params[:id])
-    end
+  def set_imagelike_by_imagepost
+    @imagelike = Imagelike.where(:imagepost_id => params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def imagelike_params
-      params.require(:imagelike).permit(:imagepost_id, :user_id)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def imagelike_params
+    params.require(:imagelike).permit(:imagepost_id, :user_id)
+  end
+
+  def authenticate_request
+    authenticateUserModule()
+  end
 end
