@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy, :followers, :following]
   before_action :authenticate_request, only: [:update, :destroy]
 
   # GET /users
@@ -36,6 +36,14 @@ class UsersController < ApplicationController
     else
       render json: {data: @user.errors, status: httpstatus[:updateFailed]}, status: :unprocessable_entity
     end
+  end
+
+  def following
+    render json: @user.following
+  end
+
+  def followers
+    render json: @user.followers
   end
 
   # DELETE /users/1
