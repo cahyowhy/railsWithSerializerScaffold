@@ -1,6 +1,5 @@
 class AuthenticationController < ApplicationController
   attr_reader :authenticate_request
-  # skip_before_action :authenticate_request
 
   def authenticate
     command = AuthenticateUser.call(params[:username], params[:password])
@@ -11,8 +10,4 @@ class AuthenticationController < ApplicationController
       render json:{message: command.result}, status: :unauthorized
     end
   end
-
-  # def authenticate_request
-  #   authenticateUserModule()
-  # end
 end

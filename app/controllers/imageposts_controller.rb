@@ -1,6 +1,6 @@
 class ImagepostsController < ApplicationController
+  before_action :authenticate_request, only: [:update, :destroy, :create]
   before_action :set_imagepost, only: [:show, :update, :destroy]
-  before_action :authenticate_request, only: [:update, :destroy]
   before_action :set_imagepost_offset_limit, only: [:show_limit_offset]
 
   # GET /imageposts
@@ -15,7 +15,7 @@ class ImagepostsController < ApplicationController
     render json: @imagepost
   end
 
-  def show_limit_offset
+  def show_limit_offset #limit offset for ALL post
     render json: @imagepost
   end
 
@@ -66,7 +66,7 @@ class ImagepostsController < ApplicationController
   end
 
   def imagepost_params
-    params.require(:imagepost).permit(:title, :description, :user_id, :imagepath_data => [])
+    params.require(:imagepost).permit(:title, :description, :imagepath_data => []).merge(user: curent_user)
   end
 
   def authenticate_request
