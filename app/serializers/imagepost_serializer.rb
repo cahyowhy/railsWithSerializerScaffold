@@ -1,6 +1,6 @@
 class ImagepostSerializer < ActiveModel::Serializer
   attr_reader :user
-  attributes :id, :title, :description
+  attributes :id, :title, :description, :created_at
   has_one :user
   has_many :imagepaths
   has_many :imagecomments

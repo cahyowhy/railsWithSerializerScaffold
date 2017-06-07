@@ -1,5 +1,5 @@
 class ImagepostsController < ApplicationController
-  before_action :authenticate_request, only: [:update, :destroy, :create]
+  before_action :authenticate_request, only: [:update, :destroy, :create, :photo_timelines]
   before_action :set_imagepost, only: [:show, :update, :destroy]
   before_action :set_imagepost_offset_limit, only: [:show_limit_offset]
 
@@ -49,6 +49,12 @@ class ImagepostsController < ApplicationController
       remove_img(item.path.url)
     end
     @imagepost.destroy
+  end
+
+  def photo_timelines
+    user_ids = curent_user.following.pluck(:id) + [curent_user].pluck(:id)
+    @imageposts = Imagepost.where(user_id: user_ids).order(:created_at)
+    render json: @imageposts
   end
 
   private

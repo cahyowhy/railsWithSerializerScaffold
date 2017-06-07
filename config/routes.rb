@@ -3,13 +3,16 @@ Rails.application.routes.draw do
   resources :imagelikes, only: [:create, :destroy, :show_by_imagepost]
   resources :imagecomments, only: [:create, :destroy, :show_by_imagepost, :update]
   resources :imagepaths
-  resources :imageposts
+  resources :imageposts do
+    collection do
+      get :photo_timelines
+    end
+  end
   resources :users do
     member do
       get :following, :followers
     end
   end
-  resources :tasks
 
   get 'imagelikes/post/:id', to: 'imagelikes#show_by_imagepost'
   get 'imagecomments/post/:id', to: 'imagecomments#show_by_imagepost'

@@ -11,7 +11,6 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     render json: @user
-    # render json:{data:  @user.as_json(:except => [:created_at, :updated_at]), status: httpstatus[:getSuccess]}
   end
 
   # POST /users
