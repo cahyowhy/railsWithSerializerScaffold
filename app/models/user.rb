@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   validates :height, :weight, :presence => true
   validates :username, :presence => true, :length => {:minimum => 6}
   validates :jk, inclusion: {in: %w(Pria Wanita)}
-  has_many :task
   has_many :imageposts
   has_many :active_relationships, class_name: "Relationship",
            foreign_key: "follower_id",
