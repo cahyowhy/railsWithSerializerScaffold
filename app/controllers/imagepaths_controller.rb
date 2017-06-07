@@ -2,13 +2,6 @@ class ImagepathsController < ApplicationController
   before_action :set_imagepath, only: [:show]
   before_action :set_imagepath_by_imagepost, only: [:show_by_imagepost]
 
-  # GET /imagepaths
-  def index
-    @imagepaths = Imagepath.all
-
-    render json: @imagepaths
-  end
-
   def show_by_imagepost
     render json: @imagepath
   end

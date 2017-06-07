@@ -1,7 +1,6 @@
 class ImagepostsController < ApplicationController
   before_action :authenticate_request, only: [:update, :destroy, :create, :photo_timelines]
   before_action :set_imagepost, only: [:show, :update, :destroy]
-  before_action :set_imagepost_offset_limit, only: [:show_limit_offset]
 
   # GET /imageposts
   def index
@@ -53,7 +52,7 @@ class ImagepostsController < ApplicationController
 
   def photo_timelines
     user_ids = curent_user.following.pluck(:id) + [curent_user].pluck(:id)
-    @imageposts = Imagepost.where(user_id: user_ids).order(:created_at)
+    @imageposts = Imagepost.where(user_id: user_ids).order(:created_at).limit(params[:limit]).offset(params[:offset])
     render json: @imageposts
   end
 
@@ -61,10 +60,6 @@ class ImagepostsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_imagepost
     @imagepost = Imagepost.find(params[:id])
-  end
-
-  def set_imagepost_offset_limit
-    @imagepost = Imagepost.all.limit(params[:limit]).offset(params[:offset])
   end
 
   def remove_img(param)
