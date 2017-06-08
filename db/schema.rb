@@ -12,14 +12,17 @@
 
 ActiveRecord::Schema.define(version: 20170606035158) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "imagecomments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "imagepost_id"
     t.text     "comment"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["imagepost_id"], name: "index_imagecomments_on_imagepost_id"
-    t.index ["user_id"], name: "index_imagecomments_on_user_id"
+    t.index ["imagepost_id"], name: "index_imagecomments_on_imagepost_id", using: :btree
+    t.index ["user_id"], name: "index_imagecomments_on_user_id", using: :btree
   end
 
   create_table "imagelikes", force: :cascade do |t|
@@ -27,8 +30,8 @@ ActiveRecord::Schema.define(version: 20170606035158) do
     t.integer  "user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["imagepost_id"], name: "index_imagelikes_on_imagepost_id"
-    t.index ["user_id"], name: "index_imagelikes_on_user_id"
+    t.index ["imagepost_id"], name: "index_imagelikes_on_imagepost_id", using: :btree
+    t.index ["user_id"], name: "index_imagelikes_on_user_id", using: :btree
   end
 
   create_table "imagepaths", force: :cascade do |t|
@@ -36,7 +39,7 @@ ActiveRecord::Schema.define(version: 20170606035158) do
     t.integer  "imagepost_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["imagepost_id"], name: "index_imagepaths_on_imagepost_id"
+    t.index ["imagepost_id"], name: "index_imagepaths_on_imagepost_id", using: :btree
   end
 
   create_table "imageposts", force: :cascade do |t|
@@ -45,7 +48,7 @@ ActiveRecord::Schema.define(version: 20170606035158) do
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["user_id"], name: "index_imageposts_on_user_id"
+    t.index ["user_id"], name: "index_imageposts_on_user_id", using: :btree
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -53,9 +56,9 @@ ActiveRecord::Schema.define(version: 20170606035158) do
     t.integer  "followed_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["followed_id"], name: "index_relationships_on_followed_id"
-    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
-    t.index ["follower_id"], name: "index_relationships_on_follower_id"
+    t.index ["followed_id"], name: "index_relationships_on_followed_id", using: :btree
+    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true, using: :btree
+    t.index ["follower_id"], name: "index_relationships_on_follower_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
